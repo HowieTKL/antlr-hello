@@ -1,0 +1,42 @@
+// https://tomassetti.me/antlr-mega-tutorial/#chapter18
+
+plugins {
+    id 'java'
+    id 'antlr'
+    id 'idea'
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    antlr "org.antlr:antlr4:4.13.2"
+    implementation "org.antlr:antlr4-runtime:4.13.2"
+    testImplementation(platform('org.junit:junit-bom:5.12.1'))
+    testImplementation('org.junit.jupiter:junit-jupiter')
+}
+
+generateGrammarSource {
+    maxHeapSize = "512m"
+    arguments += ['-package', 'org.howietkl.parser', '-visitor', '-listener']
+}
+
+sourceSets {
+    main {
+        java.srcDir 'build/generated-src/antlr/main/'
+    }
+}
+
+clean{
+    delete "build/generated-src"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+application {
+    mainClass.set("org.howietkl.Main")
+}
